@@ -54,7 +54,16 @@ app.get("/books", (req: Request, res: Response) => {
   } else { 
     res.json(books)
   }
+});
 
+app.get("/books/:id", (req: Request, res: Response) => {
+  const id = parseInt(req.params.id); 
+  const book = books.find((book) => book.id === id)
+  if (book){ 
+  res.json(book)
+  } else { 
+    res.status(404).send("Book not found")
+  }
 });
 
 app.get("/members", (req: Request, res: Response) => {
