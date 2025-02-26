@@ -42,8 +42,19 @@ app.get("/authors", (req: Request, res: Response) => {
   res.json(authors);
 });
 
+// app.get("/books", (req: Request, res: Response) => {
+//   res.json(books);
+// });
+
 app.get("/books", (req: Request, res: Response) => {
-  res.json(books);
+  if (req.query.category){ 
+    const category = req.query.category;
+    const filteredBooks = books.filter((event) => event.category === category);
+    res.json(filteredBooks)
+  } else { 
+    res.json(books)
+  }
+
 });
 
 app.get("/members", (req: Request, res: Response) => {
