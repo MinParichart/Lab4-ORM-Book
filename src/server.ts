@@ -2,10 +2,44 @@ import express, { Request, Response } from "express";
 
 const app = express();
 const port = 3005;
+app.use(express.json()); // ต้องใส่
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
-});
+// Interface Definitions ต้องประกาศ type ก่อน object เสมอ 
+interface Book {
+  id: number;
+  title: string;
+  isbn: number;
+  category: string;
+  author: string;
+}
+
+interface Author {
+  id: number;
+  first_name: string;
+  last_name: string;
+  affiliation: string;
+}
+
+interface Member {
+  id: number;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+}
+
+interface BorrowingHistory {
+  id: number;
+  member_id: number;
+  borrow_date: Date;
+  return_due_date: Date;
+}
+
+interface BorrowedBook {
+  id: number;
+  borrowing_id: number;
+  book_id: number;
+  actual_return_date?: Date;
+}
 
 // Sample Data
 const authors: Author[] = [
@@ -38,6 +72,17 @@ const borrowedBooks: BorrowedBook[] = [
 ];
 
 // API Routes
+app.post("/books", (req, res) => { 
+  const newBook : Book = req.body; 
+  newBook.id = books.length + 1; 
+  books.push(newBook); 
+  res.json(newBook); 
+})
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello World!");
+});
+
 app.get("/authors", (req: Request, res: Response) => {
   res.json(authors);
 });
@@ -82,39 +127,3 @@ app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
 
-// Interface Definitions
-interface Book {
-  id: number;
-  title: string;
-  isbn: number;
-  category: string;
-  author: string;
-}
-
-interface Author {
-  id: number;
-  first_name: string;
-  last_name: string;
-  affiliation: string;
-}
-
-interface Member {
-  id: number;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-}
-
-interface BorrowingHistory {
-  id: number;
-  member_id: number;
-  borrow_date: Date;
-  return_due_date: Date;
-}
-
-interface BorrowedBook {
-  id: number;
-  borrowing_id: number;
-  book_id: number;
-  actual_return_date?: Date;
-}
