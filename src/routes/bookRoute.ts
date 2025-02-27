@@ -19,9 +19,9 @@ import {
 const router = express.Router();
 
 // ===================== API Routes - Refactor Code to Function ===================== 
-router.get("/",(req: Request, res: Response) => { // GET - http://localhost:3005
-  res.send("Hello World!");
-});
+// router.get("/",(req: Request, res: Response) => { // GET - http://localhost:3005
+//   res.send("Hello World!");
+// });
 
 router.get("/authors", async (req: Request, res: Response) => { // GET - http://localhost:3005/authors
   res.json(await getAllAuthors());
