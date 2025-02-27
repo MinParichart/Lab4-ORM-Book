@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_db_title_book
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+
+    ports:
+      - "3308:3306"
+    # volumes:
+    #   - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin_title_book
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    ports:
+      - "9008:80"
+# volumes:
+#   mysql_data:
