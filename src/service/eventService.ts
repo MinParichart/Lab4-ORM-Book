@@ -1,0 +1,120 @@
+// ===================== Interface Definitions ===================== ต้องประกาศ type ก่อน object เสมอ
+export interface Book {
+  id: number;
+  title: string;
+  isbn: number;
+  category: string;
+  author: string;
+}
+
+export interface Author {
+  id: number;
+  first_name: string;
+  last_name: string;
+  affiliation: string;
+}
+
+interface Member {
+  id: number;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+}
+
+export interface BorrowingHistory {
+  id: number;
+  member_id: number;
+  borrow_date: Date;
+  return_due_date: Date;
+}
+
+export interface BorrowedBook {
+  id: number;
+  borrowing_id: number;
+  book_id: number;
+  actual_return_date?: Date;
+}
+
+// ===================== Sample Data =====================
+const authors: Author[] = [
+  { id: 1, first_name: "James", last_name: "Clear", affiliation: "Self-Improvement Publications" },
+  { id: 2, first_name: "Robert", last_name: "C. Martin", affiliation: "Software Engineering Press" },
+  { id: 3, first_name: "Yuval Noah", last_name: "Harari", affiliation: "History and Anthropology Research" },
+];
+
+const books: Book[] = [
+  { id: 1, title: "Atomic Habits", isbn: 101, category: "Self-Improvement", author: "James Clear" },
+  { id: 2, title: "Clean Code", isbn: 102, category: "Technology", author: "Robert C. Martin" },
+  { id: 3, title: "Sapiens: A Brief History of Humankind", isbn: 103, category: "History", author: "Yuval Noah Harari" },
+  { id: 4, title: "The Pragmatic Programmer", isbn: 104, category: "Technology", author: "Andrew Hunt" },
+  { id: 5, title: "Deep Work", isbn: 105, category: "Productivity", author: "Cal Newport" },
+];
+
+const members: Member[] = [
+  { id: 1, first_name: "Alice", last_name: "Brown", phone_number: "123-456-7890" },
+  { id: 2, first_name: "Bob", last_name: "Smith", phone_number: "234-567-8901" },
+];
+
+const borrowingHistory: BorrowingHistory[] = [
+  { id: 1, member_id: 1, borrow_date: new Date("2024-02-01"), return_due_date: new Date("2024-02-15") },
+  { id: 2, member_id: 2, borrow_date: new Date("2024-02-05"), return_due_date: new Date("2024-02-19") },
+];
+
+const borrowedBooks: BorrowedBook[] = [
+  { id: 1, borrowing_id: 1, book_id: 1, actual_return_date: new Date("2024-02-14") },
+  { id: 2, borrowing_id: 2, book_id: 2, actual_return_date: undefined },
+];
+
+// ===================== Helper Functions =====================
+export function getBookByCategory(category:string) : Book [] {
+  const filteredBooksCategory = books.filter((event) => event.category === category); 
+  return filteredBooksCategory
+}
+
+export function getBookByTitle(title:string) : Book [] {
+  const filteredBooksTitle = books.filter((event) => event.title === title); 
+  return filteredBooksTitle
+}
+
+
+export function getAllBooks() : Book [] { 
+  return books; 
+}
+
+export function getBookById(id : number) : Book | undefined { 
+  return books.find((book) => book.id === id); 
+}
+
+export function addBook(newBook : Book) : Book { 
+  newBook.id = books.length + 1; 
+  books.push(newBook); 
+  return newBook; 
+} 
+
+export function getAllAuthors(): Author[] {
+  return authors;
+}
+
+export function getAllMembers(): Member[] {
+  return members;
+}
+
+export function getAllBorrowingHistory(): BorrowingHistory[] {
+  return borrowingHistory;
+}
+
+export function getAllBorrowedBooks(): BorrowedBook[] {
+  return borrowedBooks;
+}
+
+export function getMemberById(id: number): Member | undefined {
+  return members.find((member) => member.id === id);
+}
+
+export function getBorrowingHistoryByMemberId(memberId: number): BorrowingHistory[] {
+  return borrowingHistory.filter((history) => history.member_id === memberId);
+}
+
+export function getBorrowedBooksByBorrowingId(borrowingId: number): BorrowedBook[] {
+  return borrowedBooks.filter((book) => book.borrowing_id === borrowingId);
+}

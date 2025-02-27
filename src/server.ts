@@ -1,203 +1,23 @@
 import express, { Request, Response } from "express";
+import type { Book } from './service/eventService';
+import {
+  addBook,
+  getAllAuthors,
+  getAllBooks,
+  getAllBorrowedBooks,
+  getAllBorrowingHistory,
+  getAllMembers,
+  getBookByCategory,
+  getBookById,
+  getBookByTitle,
+  getBorrowedBooksByBorrowingId,
+  getBorrowingHistoryByMemberId,
+  getMemberById
+} from './service/eventService';
+
 const app = express();
 const port = 3005;
 app.use(express.json()); // ต้องใส่
-
-// ===================== Interface Definitions ===================== ต้องประกาศ type ก่อน object เสมอ
-interface Book {
-  id: number;
-  title: string;
-  isbn: number;
-  category: string;
-  author: string;
-}
-
-interface Author {
-  id: number;
-  first_name: string;
-  last_name: string;
-  affiliation: string;
-}
-
-interface Member {
-  id: number;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-}
-
-interface BorrowingHistory {
-  id: number;
-  member_id: number;
-  borrow_date: Date;
-  return_due_date: Date;
-}
-
-interface BorrowedBook {
-  id: number;
-  borrowing_id: number;
-  book_id: number;
-  actual_return_date?: Date;
-}
-
-// ===================== Sample Data =====================
-const authors: Author[] = [
-  { id: 1, first_name: "James", last_name: "Clear", affiliation: "Self-Improvement Publications" },
-  { id: 2, first_name: "Robert", last_name: "C. Martin", affiliation: "Software Engineering Press" },
-  { id: 3, first_name: "Yuval Noah", last_name: "Harari", affiliation: "History and Anthropology Research" },
-];
-
-const books: Book[] = [
-  { id: 1, title: "Atomic Habits", isbn: 101, category: "Self-Improvement", author: "James Clear" },
-  { id: 2, title: "Clean Code", isbn: 102, category: "Technology", author: "Robert C. Martin" },
-  { id: 3, title: "Sapiens: A Brief History of Humankind", isbn: 103, category: "History", author: "Yuval Noah Harari" },
-  { id: 4, title: "The Pragmatic Programmer", isbn: 104, category: "Technology", author: "Andrew Hunt" },
-  { id: 5, title: "Deep Work", isbn: 105, category: "Productivity", author: "Cal Newport" },
-];
-
-const members: Member[] = [
-  { id: 1, first_name: "Alice", last_name: "Brown", phone_number: "123-456-7890" },
-  { id: 2, first_name: "Bob", last_name: "Smith", phone_number: "234-567-8901" },
-];
-
-const borrowingHistory: BorrowingHistory[] = [
-  { id: 1, member_id: 1, borrow_date: new Date("2024-02-01"), return_due_date: new Date("2024-02-15") },
-  { id: 2, member_id: 2, borrow_date: new Date("2024-02-05"), return_due_date: new Date("2024-02-19") },
-];
-
-const borrowedBooks: BorrowedBook[] = [
-  { id: 1, borrowing_id: 1, book_id: 1, actual_return_date: new Date("2024-02-14") },
-  { id: 2, borrowing_id: 2, book_id: 2, actual_return_date: undefined },
-];
-
-// ===================== Helper Functions =====================
-function getBookByCategory(category:string) : Book [] {
-  const filteredBooksCategory = books.filter((event) => event.category === category); 
-  return filteredBooksCategory
-}
-
-function getBookByTitle(title:string) : Book [] {
-  const filteredBooksTitle = books.filter((event) => event.title === title); 
-  return filteredBooksTitle
-}
-
-
-function getAllBooks() : Book [] { 
-  return books; 
-}
-
-function getBookById(id : number) : Book | undefined { 
-  return books.find((book) => book.id === id); 
-}
-
-function addBook(newBook : Book) : Book { 
-  newBook.id = books.length + 1; 
-  books.push(newBook); 
-  return newBook; 
-} 
-
-function getAllAuthors(): Author[] {
-  return authors;
-}
-
-function getAllMembers(): Member[] {
-  return members;
-}
-
-function getAllBorrowingHistory(): BorrowingHistory[] {
-  return borrowingHistory;
-}
-
-function getAllBorrowedBooks(): BorrowedBook[] {
-  return borrowedBooks;
-}
-
-function getMemberById(id: number): Member | undefined {
-  return members.find((member) => member.id === id);
-}
-
-function getBorrowingHistoryByMemberId(memberId: number): BorrowingHistory[] {
-  return borrowingHistory.filter((history) => history.member_id === memberId);
-}
-
-function getBorrowedBooksByBorrowingId(borrowingId: number): BorrowedBook[] {
-  return borrowedBooks.filter((book) => book.borrowing_id === borrowingId);
-}
-
-// ===================== API Routes - Non Refactor Code to Function ===================== 
-
-// app.get("/", (req: Request, res: Response) => {
-//   res.send("Hello World!");
-// });
-
-// app.get("/authors", (req: Request, res: Response) => {
-//   res.json(authors);
-// });
-
-// app.get("/books", (req: Request, res: Response) => {
-//   res.json(books);
-// });
-
-// app.get("/books", (req: Request, res: Response) => {
-//   if (req.query.category){
-//     const category = req.query.category;
-//     const filteredBooks = books.filter((event) => event.category === category);
-//     res.json(filteredBooks)
-//   } else {
-//     res.json(books)
-//   }
-// });
-
-// app.get("/books", (req: Request, res: Response) => {
-//   const category = req.query.category as string | undefined;
-//   const title = req.query.title as string | undefined;
-//   // ถ้าไม่มี query ใด ๆ ส่งมา ให้ส่งคืน books ทั้งหมดเลย
-//   if (!category && !title) {
-//     res.json(books);
-//     return; // 🔹 เพิ่ม return เพื่อให้ TypeScript เข้าใจว่าฟังก์ชันจบที่นี่
-//   }
-//   let filteredBooks = books;
-//   if (category) {
-//     filteredBooks = filteredBooks.filter(
-//       (book) => book.category.toLowerCase() === category.toLowerCase()
-//     );
-//   }
-//   if (title) {
-//     filteredBooks = filteredBooks.filter((book) =>
-//       book.title.toLowerCase().includes(title.toLowerCase())
-//     );
-//   }
-//   res.json(filteredBooks);
-// });
-
-// app.get("/books/:id", (req: Request, res: Response) => {
-//   const id = parseInt(req.params.id);
-//   const book = books.find((book) => book.id === id);
-//   if (book) {
-//     res.json(book);
-//   } else {
-//     res.status(404).send("Book not found");
-//   }
-// });
-
-// app.get("/members", (req: Request, res: Response) => {
-//   res.json(members);
-// });
-
-// app.get("/borrowing-history", (req: Request, res: Response) => {
-//   res.json(borrowingHistory);
-// });
-
-// app.get("/borrowed-books", (req: Request, res: Response) => {
-//   res.json(borrowedBooks);
-// });
-
-// app.post("/books", (req, res) => {
-//   const newBook: Book = req.body;
-//   newBook.id = books.length + 1;
-//   books.push(newBook);
-//   res.json(newBook);
-// });
 
 // ===================== API Routes - Refactor Code to Function ===================== 
 app.get("/", (req: Request, res: Response) => { // GET - http://localhost:3005
