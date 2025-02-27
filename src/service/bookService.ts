@@ -1,10 +1,6 @@
 // ===================== Import Interface Definitions ===================== ต้องประกาศ type ก่อน object เสมอ
 import type {
-  Author,
-  Book,
-  BorrowedBook,
-  BorrowingHistory,
-  Member,
+  Book
 } from '../models/book';
 
 // ===================== Sample Data =====================
@@ -12,53 +8,54 @@ import type {
 
 // ===================== Helper Functions =====================
 // import * as repo from '../repository/bookRepository'; เปลี่ยนไปใช้ repository/bookRepositoryDb แทน 
-import * as repo from '../repository/bookRepositoryDb';
+// import * as repo from '../repository/bookRepositoryDb'; เปลี่ยนไปใช้ repository/bookRepositoryPrisma แทน
+import * as repo from '../repository/bookRepositoryPrisma';
 
-export function getBookByCategory(category:string) :  Promise<Book []> {
+export function getBookByCategory(category:string){
   return repo.getBookByCategory(category);
 }
 
-export function getBookByTitle(title:string) : Promise<Book []> {
+export function getBookByTitle(title:string){
   return repo.getBookByTitle(title);
 }
 
-export function getAllBooks() : Promise<Book []> { 
+export function getAllBooks(){ 
   return repo.getAllBooks();
 }
 
-export function getBookById(id : number) : Promise<Book | undefined> { 
+export function getBookById(id : number){ 
   return repo.getBookById(id)
 }
 
-export function addBook(newBook : Book) : Promise<Book> { 
+export function addBook(newBook : Book){ 
   return repo.addBook(newBook); 
 } 
 
-export function getAllAuthors(): Promise<Author[]> {
+export function getAllAuthors(){
   return repo.getAllAuthors()
 }
 
-export function getAllMembers(): Promise<Member[]> {
+export function getAllMembers(){
   return repo.getAllMembers()
 }
 
-export function getAllBorrowingHistory(): Promise<BorrowingHistory[]> {
+export function getAllBorrowingHistory(){
   return repo.getAllBorrowingHistory()
 }
 
-export function getAllBorrowedBooks(): Promise<BorrowedBook[]> {
+export function getAllBorrowedBooks(){
   return repo.getAllBorrowedBooks()
 }
 
-export function getMemberById(id: number): Promise<Member | undefined> {
+export function getMemberById(id: number){
   return repo.getMemberById(id)
 }
 
-export function getBorrowingHistoryByMemberId(memberId: number): Promise<BorrowingHistory[]> {
+export function getBorrowingHistoryByMemberId(memberId: number){
   return repo.getBorrowingHistoryByMemberId(memberId)
 }
 
-export function getBorrowedBooksByBorrowingId(borrowingId: number): Promise<BorrowedBook[]> {
+export function getBorrowedBooksByBorrowingId(borrowingId: number){
   return repo.getBorrowedBooksByBorrowingId(borrowingId)
 }
 

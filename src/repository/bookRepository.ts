@@ -44,6 +44,7 @@ export function getBookByCategory(category:string) :  Promise<Book []> {
   return Promise.resolve(filteredBooksCategory)
 }
 
+
 export function getBookByTitle(title:string) : Promise<Book []> {
   const filteredBooksTitle = books.filter((event) => event.title === title); 
   return Promise.resolve(filteredBooksTitle)
