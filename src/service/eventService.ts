@@ -66,55 +66,55 @@ const borrowedBooks: BorrowedBook[] = [
 ];
 
 // ===================== Helper Functions =====================
-export function getBookByCategory(category:string) : Book [] {
+export function getBookByCategory(category:string) :  Promise<Book []> {
   const filteredBooksCategory = books.filter((event) => event.category === category); 
-  return filteredBooksCategory
+  return Promise.resolve(filteredBooksCategory)
 }
 
-export function getBookByTitle(title:string) : Book [] {
+export function getBookByTitle(title:string) : Promise<Book []> {
   const filteredBooksTitle = books.filter((event) => event.title === title); 
-  return filteredBooksTitle
+  return Promise.resolve(filteredBooksTitle)
 }
 
 
-export function getAllBooks() : Book [] { 
-  return books; 
+export function getAllBooks() : Promise<Book []> { 
+  return Promise.resolve(books); 
 }
 
-export function getBookById(id : number) : Book | undefined { 
-  return books.find((book) => book.id === id); 
+export function getBookById(id : number) : Promise<Book | undefined> { 
+  return Promise.resolve(books.find((book) => book.id === id)); 
 }
 
-export function addBook(newBook : Book) : Book { 
+export function addBook(newBook : Book) : Promise<Book> { 
   newBook.id = books.length + 1; 
   books.push(newBook); 
-  return newBook; 
+  return Promise.resolve(newBook); 
 } 
 
-export function getAllAuthors(): Author[] {
-  return authors;
+export function getAllAuthors(): Promise<Author[]> {
+  return Promise.resolve(authors);
 }
 
-export function getAllMembers(): Member[] {
-  return members;
+export function getAllMembers(): Promise<Member[]> {
+  return Promise.resolve(members);
 }
 
-export function getAllBorrowingHistory(): BorrowingHistory[] {
-  return borrowingHistory;
+export function getAllBorrowingHistory(): Promise<BorrowingHistory[]> {
+  return Promise.resolve(borrowingHistory);
 }
 
-export function getAllBorrowedBooks(): BorrowedBook[] {
-  return borrowedBooks;
+export function getAllBorrowedBooks(): Promise<BorrowedBook[]> {
+  return Promise.resolve(borrowedBooks);
 }
 
-export function getMemberById(id: number): Member | undefined {
-  return members.find((member) => member.id === id);
+export function getMemberById(id: number): Promise<Member | undefined> {
+  return Promise.resolve(members.find((member) => member.id === id));
 }
 
-export function getBorrowingHistoryByMemberId(memberId: number): BorrowingHistory[] {
-  return borrowingHistory.filter((history) => history.member_id === memberId);
+export function getBorrowingHistoryByMemberId(memberId: number): Promise<BorrowingHistory[]> {
+  return Promise.resolve(borrowingHistory.filter((history) => history.member_id === memberId));
 }
 
-export function getBorrowedBooksByBorrowingId(borrowingId: number): BorrowedBook[] {
-  return borrowedBooks.filter((book) => book.borrowing_id === borrowingId);
+export function getBorrowedBooksByBorrowingId(borrowingId: number): Promise<BorrowedBook[]> {
+  return Promise.resolve(borrowedBooks.filter((book) => book.borrowing_id === borrowingId));
 }
