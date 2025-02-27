@@ -33,9 +33,9 @@ const borrowingHistory: BorrowingHistory[] = [
   { id: 2, member_id: 2, borrow_date: new Date("2024-02-05"), return_due_date: new Date("2024-02-19") },
 ];
 
-const borrowedBooks: BorrowedBook[] = [
-  { id: 1, borrowing_id: 1, book_id: 1, actual_return_date: new Date("2024-02-14") },
-  { id: 2, borrowing_id: 2, book_id: 2, actual_return_date: undefined },
+const borrowedBooks: BorrowedBook[] = [ // เก็บข้อมูลหนังสือที่ถูกยืม 
+  { id: 1, borrowing_id: 1, book_id: 1, actual_return_date: new Date("2024-02-14") }, // คืนหนังสือมาวันที่ 2024-02-14
+  { id: 2, borrowing_id: 2, book_id: 2, actual_return_date: undefined }, // undefined คือยังไม่คืน
 ];
 
 // ===================== Helper Functions =====================
