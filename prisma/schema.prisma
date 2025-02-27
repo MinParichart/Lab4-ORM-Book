@@ -44,8 +44,8 @@ model borrowingHistory {
 
 model borrowedBook {
   id                    Int      @id @default(autoincrement())
-  borrowing_id          Int
-  book_id               Int
-  actual_return_date    DateTime
+  borrowing_id          Int   
+  book_id               Int      
+  actual_return_date    DateTime? // เพิ่ม ? เพื่อให้เป็น optional
 }
 
