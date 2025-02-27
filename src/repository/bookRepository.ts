@@ -1,39 +1,12 @@
-// ===================== Interface Definitions ===================== ต้องประกาศ type ก่อน object เสมอ
-export interface Book {
-  id: number;
-  title: string;
-  isbn: number;
-  category: string;
-  author: string;
-}
+// ===================== Import Type - Interface Definitions ===================== ต้องประกาศ type ก่อน object เสมอ
 
-export interface Author {
-  id: number;
-  first_name: string;
-  last_name: string;
-  affiliation: string;
-}
-
-interface Member {
-  id: number;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-}
-
-export interface BorrowingHistory {
-  id: number;
-  member_id: number;
-  borrow_date: Date;
-  return_due_date: Date;
-}
-
-export interface BorrowedBook {
-  id: number;
-  borrowing_id: number;
-  book_id: number;
-  actual_return_date?: Date;
-}
+import type {
+  Author,
+  Book,
+  BorrowedBook,
+  BorrowingHistory,
+  Member,
+} from '../models/book';
 
 // ===================== Sample Data =====================
 const authors: Author[] = [

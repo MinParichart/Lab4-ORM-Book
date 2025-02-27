@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import type { Book } from './service/eventService';
+import type { Book } from './models/book';
 import {
   addBook,
   getAllAuthors,
@@ -13,7 +13,7 @@ import {
   getBorrowedBooksByBorrowingId,
   getBorrowingHistoryByMemberId,
   getMemberById
-} from './service/eventService';
+} from './repository/bookRepository';
 
 const app = express();
 const port = 3005;
@@ -45,7 +45,6 @@ app.get("/books", async (req: Request, res: Response) => { // GET - http://local
   }
   res.json(filteredBooks); // ถ้าเข้าเงื่อนไขไหน (category, title) ก็เอา filteredBooks ของอันไหนมาแสดง  
 });
-
 
 app.get("/books/:id", async (req: Request, res: Response) => { // GET - http://localhost:3005/books/3
   const id = parseInt(req.params.id);
