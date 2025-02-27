@@ -96,6 +96,29 @@ app.post("/books", async (req, res) => { // POST - http://localhost:3005/books
   res.json(newBook);
 });
 
+// ===================== Add Endpoint for Upload ที่ service.ts ===================== 
+import multer from 'multer';
+import { uploadFile } from './service/uploadFileService';
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.post('/upload', upload.single('file'), async (req: any, res: any) => {
+    try {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).send('No file uploaded.');
+      }
+
+      const bucket = 'image_title_book';
+      const filePath = `uploads_title_book/${file.originalname}`;
+   
+      await uploadFile(bucket, filePath, file);
+  
+      res.status(200).send('File uploaded successfully.');
+    } catch (error) {
+      res.status(500).send('Error uploading file.');
+    }
+  });
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
