@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "express": "^4.21.2",
-    "lab4-orm-book": "file:"
+    "lab4-orm-book": "file:",
+    "mysql2": "^3.12.0"
   }
 }
