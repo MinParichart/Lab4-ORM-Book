@@ -31,7 +31,9 @@ export function addBook(newBook: Book){
       title: newBook.title,
       isbn: newBook.isbn,
       category: newBook.category,
-      author: newBook.author,
+      author: {
+        connect : { id: newBook.author.connect.id, }, 
+      },
     },
   });
 }

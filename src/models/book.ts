@@ -4,7 +4,11 @@ export interface Book {
   title: string;
   isbn: number;
   category: string;
-  author: string;
+  author: {
+    connect: {
+      id: number;
+    };
+  };
 }
 
 export interface Author {

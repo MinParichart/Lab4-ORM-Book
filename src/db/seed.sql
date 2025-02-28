@@ -1,14 +1,14 @@
-INSERT INTO books (id, title, isbn, category, author) VALUES
-(1, "Atomic Habits", 101,  "Self-Improvement", "James Clear" ),
-(2, "Clean Code", 102,  "Technology", "Robert C. Martin" ),
-(3, "Sapiens: A Brief History of Humankind", 103,  "History", "Yuval Noah Harari" ),
-(4, "The Pragmatic Programmer", 104,  "Technology", "Andrew Hunt" ),
-(5, "Deep Work", 105,  "Productivity", "Cal Newport" );
-
 INSERT INTO authors (id, first_name, last_name, affiliation) VALUES
 ( 1,  "James", "Clear",  "Self-Improvement Publications" ),
 ( 2, "Robert", "C. Martin", "Software Engineering Press" ),
 ( 3, "Yuval Noah", "Harari", "History and Anthropology Research" );
+
+INSERT INTO books (id, title, isbn, category, author) VALUES
+(1, "Atomic Habits", 101,  "Self-Improvement", 1 ),
+(2, "Clean Code", 102,  "Technology", 2 ),
+(3, "Sapiens: A Brief History of Humankind", 103,  3 ),
+(4, "The Pragmatic Programmer", 104,  "Technology", 2 ),
+(5, "Deep Work", 105,  "Productivity", 1 );
 
 INSERT INTO members (id, first_name, last_name, phone_number) VALUES
 (1, "Alice", "Brown", "123-456-7890" ),

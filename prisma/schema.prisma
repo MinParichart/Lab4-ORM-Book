@@ -4,6 +4,53 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
+// model book {
+//   id           Int        @id @default(autoincrement())
+//   title        String
+//   isbn         Int
+//   category     String
+//   author       String
+// }
+
+// model author {
+//   id            Int       @id @default(autoincrement())
+//   first_name    String
+//   last_name     String
+//   affiliation   String
+// }
+
+// model member {
+//   id            Int       @id @default(autoincrement())
+//   first_name    String
+//   last_name     String
+//   phone_number  String
+// }
+
+// model borrowingHistory {
+//   id                Int      @id @default(autoincrement())
+//   member_id         Int
+//   borrow_date       DateTime
+//   return_due_date   DateTime
+// }
+
+// model borrowedBook {
+//   id                    Int      @id @default(autoincrement())
+//   borrowing_id          Int   
+//   book_id               Int      
+//   actual_return_date    DateTime? // เพิ่ม ? เพื่อให้เป็น optional
+// }
+
+// ========================== One to Many Relationship ============================
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,20 +59,20 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
-model book {
-  id           Int        @id @default(autoincrement())
-  title        String
-  isbn         Int
-  category     String
-  author       String
-}
-
 model author {
   id            Int       @id @default(autoincrement())
   first_name    String
   last_name     String
   affiliation   String
+  books         book[]
+}
+model book {
+  id           Int        @id @default(autoincrement())
+  title        String
+  isbn         Int
+  category     String
+  authorId     Int        //FK
+  author       author     @relation(fields: [authorId], references: [id])
 }
 
 model member {
@@ -33,6 +80,7 @@ model member {
   first_name    String
   last_name     String
   phone_number  String
+  borrowings    borrowingHistory[]
 }
 
 model borrowingHistory {
@@ -40,12 +88,14 @@ model borrowingHistory {
   member_id         Int
   borrow_date       DateTime
   return_due_date   DateTime
+  member            member   @relation(fields: [member_id], references: [id])
+  borrowedBooks     borrowedBook[]
 }
 
 model borrowedBook {
   id                    Int      @id @default(autoincrement())
   borrowing_id          Int   
   book_id               Int      
-  actual_return_date    DateTime? // เพิ่ม ? เพื่อให้เป็น optional
+  actual_return_date    DateTime?
+  borrowingHistory      borrowingHistory @relation(fields: [borrowing_id], references: [id])
 }
-
