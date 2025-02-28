@@ -1,21 +1,21 @@
 // ===================== Interface Definitions ===================== ต้องประกาศ type ก่อน object เสมอ
-export interface Book {
-  id: number;
-  title: string;
-  isbn: number;
-  category: string;
-  author: {
-    connect: {
-      id: number;
-    };
-  };
-}
-
 export interface Author {
   id: number;
   first_name: string;
   last_name: string;
   affiliation: string;
+}
+
+export interface Book {
+  id: number;
+  title: string;
+  isbn: number;
+  category: string;
+  author?: Author //{
+  //   connect: {
+  //     id: number;
+  //   };
+  // };
 }
 
 export interface Member {
@@ -37,4 +37,8 @@ export interface BorrowedBook {
   borrowing_id: number;
   book_id: number;
   actual_return_date?: Date;
+}
+
+export interface BookWithAuthor extends Book {
+  author: Author; // เพิ่ม author เป็น required
 }

@@ -20,7 +20,8 @@ export function getBookByTitle(title:string){
 }
 
 export function getAllBooks(){ 
-  return repo.getAllBooks();
+  // return repo.getAllBooks();
+  return repo.getAllBookWithAuthor();
 }
 
 export function getBookById(id : number){ 

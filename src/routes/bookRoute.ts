@@ -19,15 +19,8 @@ import {
 const router = express.Router();
 
 // ===================== API Routes - Refactor Code to Function ===================== 
-// router.get("/",(req: Request, res: Response) => { // GET - http://localhost:3005
-//   res.send("Hello World!");
-// });
-
-router.get("/authors", async (req: Request, res: Response) => { // GET - http://localhost:3005/authors
-  res.json(await getAllAuthors());
-});
-
-router.get("/books", async (req: Request, res: Response) => { // GET - http://localhost:3005/books
+router.get("/",async (req: Request, res: Response) => { // GET - http://localhost:3005
+  // res.send("Hello World!");
   const category = req.query.category as string | undefined;
   const title = req.query.title as string | undefined;
   // ถ้าไม่มี query ใด ๆ ส่งมา ให้ส่งคืน books ทั้งหมดเลย
@@ -35,12 +28,37 @@ router.get("/books", async (req: Request, res: Response) => { // GET - http://lo
     res.json(await getAllBooks()); // ถ้าไม่ส่ง category && title มาให้แสดง allBooks
     return; // 🔹 เพิ่ม return เพื่อให้ TypeScript เข้าใจว่าฟังก์ชันจบที่นี่
   }
-  let filteredBooks = await getAllBooks(); // set ค่า filteredBooks = getAllBooks() ก่อนตอนเริ่มต้น 
+  // let filteredBooks = await getAllBooks(); // set ค่า filteredBooks = getAllBooks() ก่อนตอนเริ่มต้น 
+  let filteredBooks: Book[] = []; // Initialize filteredBooks with an empty array
   if (category) {
-    filteredBooks = await getBookByCategory(category) // ถ้ามีส่ง query category มาให้  set ค่า filteredBooks = getBookByCategory(category) 
+    filteredBooks = await getBookByCategory(category); // ถ้ามีส่ง query category มาให้  set ค่า filteredBooks = getBookByCategory(category) 
   }
   if (title) {
-    filteredBooks = await getBookByTitle(title) // ถ้ามีส่ง query title มาให้  set ค่า filteredBooks = getBookByTitle(title)
+    filteredBooks = await getBookByTitle(title); // ถ้ามีส่ง query title มาให้  set ค่า filteredBooks = getBookByTitle(title)
+  }
+  res.json(filteredBooks); // ถ้าเข้าเงื่อนไขไหน (category, title) ก็เอา filteredBooks ของอันไหนมาแสดง  
+});
+
+
+router.get("/authors", async (req: Request, res: Response) => { // GET - http://localhost:3005/authors
+  res.json(await getAllAuthors());
+});
+
+router.get("/books", async (req: Request, res: Response) => { // GET - http://localhost:3005/books
+  const category = req.query.category as string | undefined;  // GET - http://localhost:3005/books?category=Technology
+  const title = req.query.title as string | undefined;        // GET - http://localhost:3005/books?title=Atomic
+  // ถ้าไม่มี query ใด ๆ ส่งมา ให้ส่งคืน books ทั้งหมดเลย
+  if (!category && !title) {
+    res.json(await getAllBooks()); // ถ้าไม่ส่ง category && title มาให้แสดง allBooks
+    return; // 🔹 เพิ่ม return เพื่อให้ TypeScript เข้าใจว่าฟังก์ชันจบที่นี่
+  }
+  // let filteredBooks = await getAllBooks(); // set ค่า filteredBooks = getAllBooks() ก่อนตอนเริ่มต้น 
+  let filteredBooks: Book[] = []; // Initialize filteredBooks with an empty array
+  if (category) {
+    filteredBooks = await getBookByCategory(category); // ถ้ามีส่ง query category มาให้  set ค่า filteredBooks = getBookByCategory(category) 
+  }
+  if (title) {
+    filteredBooks = await getBookByTitle(title); // ถ้ามีส่ง query title มาให้  set ค่า filteredBooks = getBookByTitle(title)
   }
   res.json(filteredBooks); // ถ้าเข้าเงื่อนไขไหน (category, title) ก็เอา filteredBooks ของอันไหนมาแสดง  
 });
@@ -96,3 +114,9 @@ router.post("/books", async (req, res) => { // POST - http://localhost:3005/book
 });
 
 export default router; 
+
+// Post  - http://localhost:3005/books - JSON
+// { "title": "Test", 
+//   "isbn": 555, 
+//   "category": "Educations", 
+//   "author": { "id" : 1}  }

@@ -16,11 +16,11 @@ const authors: Author[] = [
 ];
 
 const books: Book[] = [
-  { id: 1, title: "Atomic Habits", isbn: 101, category: "Self-Improvement", author: "James Clear" },
-  { id: 2, title: "Clean Code", isbn: 102, category: "Technology", author: "Robert C. Martin" },
-  { id: 3, title: "Sapiens: A Brief History of Humankind", isbn: 103, category: "History", author: "Yuval Noah Harari" },
-  { id: 4, title: "The Pragmatic Programmer", isbn: 104, category: "Technology", author: "Andrew Hunt" },
-  { id: 5, title: "Deep Work", isbn: 105, category: "Productivity", author: "Cal Newport" },
+  { id: 1, title: "Atomic Habits", isbn: 101, category: "Self-Improvement", author: authors[0] },
+  { id: 2, title: "Clean Code", isbn: 102, category: "Technology", author: authors[1] },
+  { id: 3, title: "Sapiens: A Brief History of Humankind", isbn: 103, category: "History", author: authors[2] },
+  { id: 4, title: "The Pragmatic Programmer", isbn: 104, category: "Technology", author: { id: 4, first_name: "Andrew", last_name: "Hunt", affiliation: "Software Engineering Press" } },
+  { id: 5, title: "Deep Work", isbn: 105, category: "Productivity", author: { id: 5, first_name: "Cal", last_name: "Newport", affiliation: "Productivity Publications" } },
 ];
 
 const members: Member[] = [
